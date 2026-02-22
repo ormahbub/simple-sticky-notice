@@ -1,21 +1,25 @@
-/* Base structural styles */
+/* Base Layout - Written by Mahbub */
 .ssn-box {
   position: fixed;
-  padding: 12px 24px;
+  padding: 10px 20px;
   z-index: 999999;
   white-space: nowrap;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-  font-family: sans-serif;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   font-size: 14px;
-  font-weight: 600;
-  transition: all 0.3s ease;
+  font-weight: 500;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .ssn-link {
   text-decoration: none;
-  display: inline-block;
+  transition: opacity 0.2s;
 }
 
 .ssn-link:hover {
-  text-decoration: underline;
+  opacity: 0.8;
 }

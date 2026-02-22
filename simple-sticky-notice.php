@@ -1,8 +1,8 @@
 <?php
 /**
  * Plugin Name: Simple Sticky Notice
- * Description: A customizable, fixed notice box for site-wide announcements.
- * Version: 1.1
+ * Description: Fully customizable fixed notice box with positioning and styling controls.
+ * Version: 1.2
  * Author: Mahbub
  */
 
@@ -18,78 +18,76 @@ class SimpleStickyNotice {
     }
 
     public function create_settings_page() {
-        add_options_page('Sticky Notice', 'Sticky Notice', 'manage_options', 'ssn-settings', array($this, 'settings_page_html'));
+        add_options_page('Sticky Notice Settings', 'Sticky Notice', 'manage_options', 'ssn-settings', array($this, 'settings_page_html'));
     }
 
     public function register_plugin_settings() {
-        // Content
-        register_setting( 'ssn-group', 'ssn_text' );
-        register_setting( 'ssn-group', 'ssn_url' );
-        
-        // Positioning
-        register_setting( 'ssn-group', 'ssn_side', array('default' => 'left') );
-        register_setting( 'ssn-group', 'ssn_vertical_pos', array('default' => '50') );
-        register_setting( 'ssn-group', 'ssn_rotation', array('default' => '-90') );
-
-        // Colors & Custom CSS
-        register_setting( 'ssn-group', 'ssn_bg_color', array('default' => '#0073aa') );
-        register_setting( 'ssn-group', 'ssn_text_color', array('default' => '#ffffff') );
-        register_setting( 'ssn-group', 'ssn_custom_css' );
+        $settings = array(
+            'ssn_text', 'ssn_url', 'ssn_side', 'ssn_vertical_pos', 
+            'ssn_rotation', 'ssn_bg_color', 'ssn_text_color', 
+            'ssn_border_radius', 'ssn_side_offset', 'ssn_visible_offset', 'ssn_custom_css'
+        );
+        foreach($settings as $setting) {
+            register_setting( 'ssn-group', $setting );
+        }
     }
 
     public function settings_page_html() {
         ?>
         <div class="wrap">
-            <h1>Sticky Notice Configuration</h1>
-            <form method="post" action="options.php">
+            <h1>Sticky Notice Settings</h1>
+            <form method="post" action="options.php" style="max-width: 800px;">
                 <?php settings_fields( 'ssn-group' ); ?>
                 
-                <h2>Content</h2>
                 <table class="form-table">
                     <tr>
                         <th scope="row">Notice Text</th>
-                        <td><input type="text" name="ssn_text" value="<?php echo esc_attr(get_option('ssn_text')); ?>" class="regular-text" /></td>
+                        <td><input type="text" name="ssn_text" value="<?php echo esc_attr(get_option('ssn_text')); ?>" class="regular-text" placeholder="Limited Offer!" /></td>
                     </tr>
                     <tr>
-                        <th scope="row">Link URL</th>
-                        <td><input type="url" name="ssn_url" value="<?php echo esc_attr(get_option('ssn_url')); ?>" class="regular-text" /></td>
+                        <th scope="row">Link URL (Optional)</th>
+                        <td><input type="url" name="ssn_url" value="<?php echo esc_attr(get_option('ssn_url')); ?>" class="regular-text" placeholder="https://..." /></td>
                     </tr>
-                </table>
-
-                <h2>Appearance & Position</h2>
-                <table class="form-table">
+                    <tr><td colspan="2"><hr></td></tr>
                     <tr>
                         <th scope="row">Screen Side</th>
                         <td>
                             <select name="ssn_side">
-                                <option value="left" <?php selected(get_option('ssn_side'), 'left'); ?>>Left</option>
-                                <option value="right" <?php selected(get_option('ssn_side'), 'right'); ?>>Right</option>
+                                <option value="left" <?php selected(get_option('ssn_side'), 'left'); ?>>Left Side</option>
+                                <option value="right" <?php selected(get_option('ssn_side'), 'right'); ?>>Right Side</option>
                             </select>
                         </td>
                     </tr>
                     <tr>
                         <th scope="row">Vertical Position (%)</th>
-                        <td><input type="number" name="ssn_vertical_pos" value="<?php echo esc_attr(get_option('ssn_vertical_pos')); ?>" min="0" max="100" /></td>
+                        <td><input type="number" name="ssn_vertical_pos" value="<?php echo esc_attr(get_option('ssn_vertical_pos', '50')); ?>" /></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Visible Offset (px)</th>
+                        <td>
+                            <input type="number" name="ssn_visible_offset" value="<?php echo esc_attr(get_option('ssn_visible_offset', '20')); ?>" />
+                            <p class="description">How far it sticks out from the edge (preventing it from being hidden).</p>
+                        </td>
                     </tr>
                     <tr>
                         <th scope="row">Rotation (deg)</th>
-                        <td><input type="number" name="ssn_rotation" value="<?php echo esc_attr(get_option('ssn_rotation')); ?>" /></td>
+                        <td><input type="number" name="ssn_rotation" value="<?php echo esc_attr(get_option('ssn_rotation', '-90')); ?>" /></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Border Radius (px)</th>
+                        <td><input type="number" name="ssn_border_radius" value="<?php echo esc_attr(get_option('ssn_border_radius', '4')); ?>" /></td>
                     </tr>
                     <tr>
                         <th scope="row">Background Color</th>
-                        <td><input type="color" name="ssn_bg_color" value="<?php echo esc_attr(get_option('ssn_bg_color')); ?>" /></td>
+                        <td><input type="color" name="ssn_bg_color" value="<?php echo esc_attr(get_option('ssn_bg_color', '#0073aa')); ?>" /></td>
                     </tr>
                     <tr>
                         <th scope="row">Text Color</th>
-                        <td><input type="color" name="ssn_text_color" value="<?php echo esc_attr(get_option('ssn_text_color')); ?>" /></td>
+                        <td><input type="color" name="ssn_text_color" value="<?php echo esc_attr(get_option('ssn_text_color', '#ffffff')); ?>" /></td>
                     </tr>
-                </table>
-
-                <h2>Advanced</h2>
-                <table class="form-table">
                     <tr>
-                        <th scope="row">Additional Custom CSS</th>
-                        <td><textarea name="ssn_custom_css" rows="5" class="large-text"><?php echo esc_textarea(get_option('ssn_custom_css')); ?></textarea></td>
+                        <th scope="row">Custom CSS</th>
+                        <td><textarea name="ssn_custom_css" rows="4" class="large-text"><?php echo esc_textarea(get_option('ssn_custom_css')); ?></textarea></td>
                     </tr>
                 </table>
                 <?php submit_button(); ?>
@@ -99,28 +97,33 @@ class SimpleStickyNotice {
     }
 
     public function enqueue_assets() {
-        wp_enqueue_style( 'ssn-base-style', plugins_url( '/style.css', __FILE__ ) );
+        wp_enqueue_style( 'ssn-base', plugins_url( '/style.css', __FILE__ ) );
 
-        // Generate dynamic styles from settings
         $side     = get_option('ssn_side', 'left');
         $v_pos    = get_option('ssn_vertical_pos', '50');
-        $rotation = get_option('ssn_rotation', '-90');
+        $vis_off  = get_option('ssn_visible_offset', '20');
+        $rot      = get_option('ssn_rotation', '-90');
+        $radius   = get_option('ssn_border_radius', '4');
         $bg       = get_option('ssn_bg_color', '#0073aa');
         $color    = get_option('ssn_text_color', '#ffffff');
         $custom   = get_option('ssn_custom_css');
 
+        // Logic to push it out from the edge based on user input
+        $pos_css = ($side === 'left') ? "left: {$vis_off}px;" : "right: {$vis_off}px;";
+
         $dynamic_css = "
             .ssn-box {
-                $side: 0;
+                $pos_css
                 top: {$v_pos}%;
-                transform: rotate({$rotation}deg);
+                transform: rotate({$rot}deg);
                 transform-origin: $side center;
                 background-color: $bg;
+                border-radius: {$radius}px;
             }
             .ssn-box, .ssn-link { color: $color; }
             $custom
         ";
-        wp_add_inline_style( 'ssn-base-style', $dynamic_css );
+        wp_add_inline_style( 'ssn-base', $dynamic_css );
     }
 
     public function render_content_box() {
@@ -129,7 +132,11 @@ class SimpleStickyNotice {
 
         $url = get_option('ssn_url');
         echo '<div class="ssn-box">';
-        echo !empty($url) ? '<a href="'.esc_url($url).'" class="ssn-link">'.esc_html($text).'</a>' : esc_html($text);
+        if ( ! empty($url) ) {
+            echo '<a href="'.esc_url($url).'" class="ssn-link">'.esc_html($text).'</a>';
+        } else {
+            echo esc_html($text);
+        }
         echo '</div>';
     }
 }
