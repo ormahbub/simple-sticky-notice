@@ -1,15 +1,15 @@
-/* Base Layout - Written by Mahbub */
+/* Base Layout - Created by Mahbub */
 .ssn-box {
   position: fixed;
-  padding: 10px 20px;
   z-index: 999999;
   white-space: nowrap;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   font-family:
     -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 600;
   line-height: 1;
+  transition: all 0.25s ease-in-out;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -17,9 +17,10 @@
 
 .ssn-link {
   text-decoration: none;
-  transition: opacity 0.2s;
+  color: inherit;
+  display: block;
 }
 
 .ssn-link:hover {
-  opacity: 0.8;
+  text-decoration: underline;
 }

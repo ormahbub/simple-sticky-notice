@@ -7,7 +7,7 @@ A lightweight WordPress plugin to display a customizable, fixed announcement box
 - **Content Control:** Set custom text with an optional destination URL.
 - **Smart Positioning:** Toggle between Left/Right sides with adjustable vertical positioning.
 - **Visibility Offset:** Fine-tune how far the box sticks out from the screen edge to prevent it from being hidden.
-- **Appearance Settings:** Built-in controls for rotation angle, border radius, and custom color pickers.
+- **Appearance Settings:** Built-in controls for rotation angle, padding, border radius, and custom color pickers and hover effect etc...
 - **Developer Friendly:** Includes a dedicated field for custom CSS overrides.
 - **Clean Code:** Written by Mahbub using WordPress best practices (OOP, Hooks, and Sanitization).
 
