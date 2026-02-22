@@ -20,7 +20,7 @@ A lightweight WordPress plugin to display a customizable, fixed announcement box
 
 ## Author
 
-**Mahbub** - [Your GitHub Profile](https://github.com/ormahbub)
+**Mahbub** - [GitHub Profile](https://github.com/ormahbub)
 
 ## License
 
